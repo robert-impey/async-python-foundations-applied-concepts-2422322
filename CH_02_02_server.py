@@ -26,9 +26,11 @@ async def huston(websocket, path):
             await blastoff(websocket)
 
 
-PORT = 8765
-click.secho(f"--- listening for websocket connections on port: {PORT} ---")
-start_server = websockets.serve(huston, "localhost", PORT)
+async def main():
+    PORT = 8765
+    click.secho(f"--- listening for websocket connections on port: {PORT} ---")
+    async with websockets.serve(huston, "localhost", PORT):
+        await asyncio.Future()
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+
+asyncio.run(main())
