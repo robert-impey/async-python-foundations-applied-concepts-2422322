@@ -13,7 +13,7 @@ async def sleep_three_then_five():
     print(f"starting sleep_three_then_five 😴")
     await asyncio.sleep(3)
     print(f"finished sleeping 3 😴")
-    await asyncio.sleep(5)
+    await sleep_five()
     print(f"finished sleep_three_then_five ⏰")
 
 
