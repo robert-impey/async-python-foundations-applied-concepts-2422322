@@ -30,7 +30,7 @@ class Chat:
         return messages
 
     async def get_name(self):
-        return # your code here make sure you use encoding="utf-8"
+        return await self.redis.get("room_name", encoding="utf-8")
 
 
 async def main():
@@ -40,6 +40,9 @@ async def main():
     await chat_db.save_message({"handle": "first_user", "message": "hey"})
     await chat_db.save_message({"handle": "second_user", "message": "What's up?"})
     await chat_db.save_message({"handle": "first_user", "message": "all good!"})
+
+    name = await chat_db.get_name()
+    print(f'name - {name}')
 
     chat_messages = await chat_db.get_all_messages()
 
