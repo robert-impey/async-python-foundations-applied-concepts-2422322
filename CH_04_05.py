@@ -3,20 +3,21 @@ import asyncio
 from pprint import pp
 
 from quart import Quart, websocket, render_template
-from quart import g
+#from quart import g
 
-from quart_redis import RedisHandler, get_redis
+#from quart_redis import RedisHandler #, get_redis
 
 app = Quart(__name__)
 
 app.config["REDIS_URI"] = "redis://localhost/"
-redis_handler = RedisHandler(app)
+#redis_handler = RedisHandler(app)
 connections = set()
 
 import json
 import asyncio
 
 import click
+#from redis import asyncio as aioredis
 import aioredis
 
 
@@ -64,6 +65,9 @@ async def ws():
         while True:
             message = await websocket.receive()
             # save the message
+            message_json = json.dumps(message)
+            await chat_db.save_message(message_json)
+
             send_coroutines = [connection.send(message) for connection in connections]
             await asyncio.gather(*send_coroutines)
     finally:
@@ -72,8 +76,8 @@ async def ws():
 
 @app.route("/")
 async def chat():
-    redis = get_redis()
-    messages = [] # replace the empty list with your code
+    #redis = get_redis()
+    messages = await chat_db.get_all_messages()
     return await render_template("chat_redis.html", messages=messages)
 
 
