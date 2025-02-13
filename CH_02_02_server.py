@@ -13,7 +13,6 @@ async def blastoff(websocket):
         await asyncio.sleep(0.5)
         await websocket.send(f"\n\n\n>>   🚀🚀🚀🚀🚀🚀🚀🚀 BLASTOFF 🚀🚀🚀🚀🚀🚀🚀🚀  <<")
 
-
 async def huston(websocket):
     click.clear()
     async for message in websocket:
@@ -29,8 +28,11 @@ async def huston(websocket):
 async def main():
     PORT = 8765
     click.secho(f"--- listening for websocket connections on port: {PORT} ---")
-    async with websockets.serve(huston, "fatima.robertimpey.com", PORT):
-        await asyncio.Future()
+    
+    # See https://websockets.readthedocs.io/en/stable/
+    async with websockets.serve(huston, "fatima.robertimpey.com", PORT)as server:
+        await server.serve_forever()
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
