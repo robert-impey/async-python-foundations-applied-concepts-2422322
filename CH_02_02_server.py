@@ -14,7 +14,7 @@ async def blastoff(websocket):
         await websocket.send(f"\n\n\n>>   🚀🚀🚀🚀🚀🚀🚀🚀 BLASTOFF 🚀🚀🚀🚀🚀🚀🚀🚀  <<")
 
 
-async def huston(websocket, path):
+async def huston(websocket):
     click.clear()
     async for message in websocket:
         if "yes" in message.lower():
@@ -29,7 +29,7 @@ async def huston(websocket, path):
 async def main():
     PORT = 8765
     click.secho(f"--- listening for websocket connections on port: {PORT} ---")
-    async with websockets.serve(huston, "localhost", PORT):
+    async with websockets.serve(huston, "fatima.robertimpey.com", PORT):
         await asyncio.Future()
 
 
